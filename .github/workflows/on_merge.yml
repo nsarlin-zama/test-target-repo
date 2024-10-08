@@ -15,7 +15,9 @@ jobs:
           fetch-depth: 0
 
       - name: Get branch for the latest version
-        run: echo "DATA_LATEST_VERSION=$(git for-each-ref --format='%(refname:short)' refs/heads | grep -Po '^v\d.\d(.\d)?$' | sort -V | tail -n 1)" >> $GITHUB_ENV
+        run: |
+          echo $(git for-each-ref --format='%(refname:short)' refs/heads | grep -Po '^v\d.\d(.\d)?$' | sort -V | tail -n 1)
+          echo "DATA_LATEST_VERSION=$(git for-each-ref --format='%(refname:short)' refs/heads | grep -Po '^v\d.\d(.\d)?$' | sort -V | tail -n 1)" >> $GITHUB_ENV
 
       - name: Rebase and push
         run: |
