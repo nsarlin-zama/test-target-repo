@@ -17,10 +17,8 @@ jobs:
       - name: Get branch for the latest version
         run: |
           echo hello
-          git fetch --all
-          echo $(git for-each-ref --format='%(refname:short)' refs/remotes/origin)
-          echo $(git for-each-ref --format='%(refname:short)' refs/remotes/origin | grep -Po '(?<=origin/)v\d.\d(.\d)?$')
-          echo "DATA_LATEST_VERSION=$(git for-each-ref --format='%(refname:short)' refs/remotes/origin \
+          echo "DATA_LATEST_VERSION=\
+          $(git for-each-ref --format='%(refname:short)' refs/remotes/origin \
           | grep -Po '(?<=origin/)v\d.\d(.\d)?$' \
           | sort -V | tail -n 1\
           )" >> $GITHUB_ENV
@@ -28,5 +26,5 @@ jobs:
       - name: Rebase and push
         run: |
           git switch $DATA_LATEST_VERSION
-          git rebase master
+          git rebase main
           git push --force-with-lease
